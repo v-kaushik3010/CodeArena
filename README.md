@@ -32,7 +32,7 @@ This project is being developed to simulate a real-world coding contest platform
 - MongoDB Atlas Integration
 - Clean Backend Architecture
 
----
+```bash
 
 ## 📂 Project Structure
 
@@ -48,9 +48,9 @@ CodeArena/
 │ └── authRoutes.js
 ├── server.js
 └── package.json
+```
 
 
----
 
 ## 🔑 Authentication Flow
 
