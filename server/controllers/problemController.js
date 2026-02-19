@@ -61,3 +61,56 @@ exports.getProblemById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// 📌 Get Single Problem By ID
+exports.getProblemById = async (req, res) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+
+    res.status(200).json(problem);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// ✏️ Update Problem (Admin Only)
+exports.updateProblem = async (req, res) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+
+    const updatedProblem = await Problem.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json(updatedProblem);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// ❌ Delete Problem (Admin Only)
+exports.deleteProblem = async (req, res) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+
+    await problem.deleteOne();
+
+    res.status(200).json({ message: "Problem deleted successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
