@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/problems", problemRoutes);
 app.use("/api/submissions", submissionRoutes);
+app.use("/api/users", userRoutes);
 
 const { protect } = require("./middleware/authMiddleware");
 
