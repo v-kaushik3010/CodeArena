@@ -1,33 +1,58 @@
 const Submission = require("../models/Submission");
 const Problem = require("../models/Problem");
+const User = require("../models/User");
 
 // 🚀 Create Submission
 exports.createSubmission = async (req, res) => {
   try {
     const { problemId, code, language } = req.body;
 
-    // Check if problem exists
+    // ✅ Check if problem exists
     const problem = await Problem.findById(problemId);
 
     if (!problem) {
-      return res.status(404).json({ message: "Problem not found" });
+      return res.status(404).json({
+        message: "Problem not found",
+      });
     }
 
-    // Create submission
+    // 🎯 Temporary verdict logic
+    const verdict =
+      Math.random() > 0.5
+        ? "Accepted"
+        : "Wrong Answer";
+
+    // ✅ Create submission
     const submission = await Submission.create({
       user: req.user._id,
       problem: problemId,
       code,
       language,
-
-      // Temporary random verdict logic
-      verdict: Math.random() > 0.5 ? "Accepted" : "Wrong Answer",
+      verdict,
     });
+
+    // 🏆 Update user score if accepted
+    if (verdict === "Accepted") {
+
+      const user = await User.findById(req.user._id);
+
+      // Prevent duplicate score increase
+      if (!user.solvedProblems.includes(problemId)) {
+
+        user.score += 10;
+
+        user.solvedProblems.push(problemId);
+
+        await user.save();
+      }
+    }
 
     res.status(201).json(submission);
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -35,6 +60,7 @@ exports.createSubmission = async (req, res) => {
 // 📜 Get Logged-in User Submissions
 exports.getMySubmissions = async (req, res) => {
   try {
+
     const submissions = await Submission.find({
       user: req.user._id,
     })
@@ -44,7 +70,9 @@ exports.getMySubmissions = async (req, res) => {
     res.status(200).json(submissions);
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -52,6 +80,7 @@ exports.getMySubmissions = async (req, res) => {
 // 📌 Get Submissions For a Problem
 exports.getProblemSubmissions = async (req, res) => {
   try {
+
     const submissions = await Submission.find({
       problem: req.params.problemId,
     })
@@ -61,6 +90,8 @@ exports.getProblemSubmissions = async (req, res) => {
     res.status(200).json(submissions);
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
