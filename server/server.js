@@ -31,7 +31,7 @@ app.get("/api/test", protect, (req, res) => {
 
 
 app.get("/", (req, res) => {
-  res.send("CodeArena API Running...");
+  res.send("AlgoArena API Running...");
 });
 
 const PORT = process.env.PORT || 5000;

@@ -1,6 +1,6 @@
-# 🚀 CodeArena – Competitive Coding Platform (MERN Stack)
+# 🚀 AlgoArena – Competitive Coding Platform (MERN Stack)
 
-CodeArena is a full-stack competitive coding platform built using the MERN stack.  
+AlgoArena is a full-stack competitive coding platform built using the MERN stack.  
 It allows users to register, log in, solve coding problems, and compete on a leaderboard.
 
 This project is being developed to simulate a real-world coding contest platform similar to LeetCode or Codeforces.
@@ -66,8 +66,8 @@ CodeArena/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/v-kaushik3010/CodeArena.git
-cd CodeArena/server
+git clone https://github.com/v-kaushik3010/AlgoArena.git
+cd AlgoArena/server
 
 
 2️⃣ Install Dependencies
