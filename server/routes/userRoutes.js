@@ -2,7 +2,8 @@ const express = require("express");
 
 const {
   getUserProfile,
-} = require("../controllers/userController");
+  getLeaderboard,
+} = require("../controllers/userController"); 
 
 const {
   protect,
@@ -12,5 +13,8 @@ const router = express.Router();
 
 // 👤 Get Logged-in User Profile
 router.get("/profile", protect, getUserProfile);
+
+// 🏆 Public Leaderboard
+router.get("/leaderboard", getLeaderboard);
 
 module.exports = router;
