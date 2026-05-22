@@ -35,6 +35,39 @@ const problemSchema = new mongoose.Schema(
       required: true,
     },
 
+    examples: [
+      {
+        input: {
+          type: String,
+          required: true,
+        },
+
+        output: {
+          type: String,
+          required: true,
+        },
+
+        explanation: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+
+    testCases: [
+      {
+        input: {
+          type: String,
+          required: true,
+        },
+
+        output: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+
     timeLimit: {
       type: Number,
       default: 1, // seconds
