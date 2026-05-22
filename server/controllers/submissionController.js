@@ -38,8 +38,16 @@ exports.createSubmission = async (req, res) => {
 
       // Prevent duplicate score increase
       if (!user.solvedProblems.includes(problemId)) {
+        let points = 0;
 
-        user.score += 10;
+        if (problem.difficulty === "Easy") {
+          points = 10;
+        } else if (problem.difficulty === "Medium") {
+          points = 20;
+        } else if (problem.difficulty === "Hard") {
+          points = 30;
+        }
+        user.score += points;
 
         user.solvedProblems.push(problemId);
 
