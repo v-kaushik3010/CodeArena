@@ -13,6 +13,7 @@ exports.createProblem = async (req, res) => {
       timeLimit,
       memoryLimit,
       tags,
+      testCases,
     } = req.body;
 
     const problem = await Problem.create({
@@ -25,6 +26,7 @@ exports.createProblem = async (req, res) => {
       timeLimit,
       memoryLimit,
       tags,
+      testCases,
       createdBy: req.user._id,
     });
 
