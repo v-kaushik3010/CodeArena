@@ -17,10 +17,18 @@ exports.createSubmission = async (req, res) => {
     }
 
     // 🎯 Temporary verdict logic
-    const verdict =
-      Math.random() > 0.5
-        ? "Accepted"
-        : "Wrong Answer";
+    let verdict = "Accepted";
+
+    // Check all testcases
+    for (const testCase of problem.testCases) {
+
+      // Very basic simulation:
+      // Check if submitted code contains expected output
+      if (!code.includes(testCase.output)) {
+        verdict = "Wrong Answer";
+        break;
+      }
+    }
 
     // ✅ Create submission
     const submission = await Submission.create({
