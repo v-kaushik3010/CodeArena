@@ -1,6 +1,7 @@
 const Submission = require("../models/Submission");
 const Problem = require("../models/Problem");
 const User = require("../models/User");
+const executeCode = require("../utils/codeExecutor");
 
 // 🚀 Create Submission
 exports.createSubmission = async (req, res) => {
@@ -19,12 +20,23 @@ exports.createSubmission = async (req, res) => {
     // 🎯 Temporary verdict logic
     let verdict = "Accepted";
 
-    // Check all testcases
+    // Run against all testcases
     for (const testCase of problem.testCases) {
 
-      // Very basic simulation:
-      // Check if submitted code contains expected output
-      if (!code.includes(testCase.output)) {
+      const result = await executeCode(
+        language,
+        code,
+        testCase.input
+      );
+
+      // Runtime error
+      if (result.error) {
+        verdict = "Runtime Error";
+        break;
+      }
+
+      // Wrong answer
+      if (result.output !== testCase.output) {
         verdict = "Wrong Answer";
         break;
       }
