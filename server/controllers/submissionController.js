@@ -8,6 +8,13 @@ exports.createSubmission = async (req, res) => {
   try {
     const { problemId, code, language } = req.body;
 
+    // ✅ Validate request body
+    if (!problemId || !code || !language) {
+      return res.status(400).json({
+        message: "problemId, code, and language are required",
+      });
+    }
+
     // ✅ Check if problem exists
     const problem = await Problem.findById(problemId);
 
@@ -17,10 +24,18 @@ exports.createSubmission = async (req, res) => {
       });
     }
 
-    // 🎯 Temporary verdict logic
-    let verdict = "Accepted";
+    // ✅ Ensure testcases exist
+    if (!problem.testCases || problem.testCases.length === 0) {
+      return res.status(400).json({
+        message: "Problem has no testcases",
+      });
+    }
 
-    // Run against all testcases
+    let verdict = "Accepted";
+    let executionTime = 0;
+    let memoryUsed = 0;
+
+    // 🚀 Run against all testcases
     for (const testCase of problem.testCases) {
 
       const result = await executeCode(
@@ -29,17 +44,25 @@ exports.createSubmission = async (req, res) => {
         testCase.input
       );
 
-      // Runtime error
+      // ❌ Runtime error
       if (result.error) {
         verdict = "Runtime Error";
         break;
       }
 
-      // Wrong answer
-      if (result.output !== testCase.output) {
+      // ✅ Normalize outputs
+      const actualOutput = result.output?.trim();
+      const expectedOutput = testCase.output?.trim();
+
+      // ❌ Wrong answer
+      if (actualOutput !== expectedOutput) {
         verdict = "Wrong Answer";
         break;
       }
+
+      // Optional metrics
+      executionTime = result.executionTime || 0;
+      memoryUsed = result.memoryUsed || 0;
     }
 
     // ✅ Create submission
@@ -49,6 +72,8 @@ exports.createSubmission = async (req, res) => {
       code,
       language,
       verdict,
+      executionTime,
+      memoryUsed,
     });
 
     // 🏆 Update user score if accepted
@@ -57,7 +82,12 @@ exports.createSubmission = async (req, res) => {
       const user = await User.findById(req.user._id);
 
       // Prevent duplicate score increase
-      if (!user.solvedProblems.includes(problemId)) {
+      const alreadySolved = user.solvedProblems.some(
+        (id) => id.toString() === problemId
+      );
+
+      if (!alreadySolved) {
+
         let points = 0;
 
         if (problem.difficulty === "Easy") {
@@ -67,6 +97,7 @@ exports.createSubmission = async (req, res) => {
         } else if (problem.difficulty === "Hard") {
           points = 30;
         }
+
         user.score += points;
 
         user.solvedProblems.push(problemId);
@@ -78,6 +109,9 @@ exports.createSubmission = async (req, res) => {
     res.status(201).json(submission);
 
   } catch (error) {
+
+    console.error("Submission Error:", error);
+
     res.status(500).json({
       message: error.message,
     });
@@ -98,6 +132,7 @@ exports.getMySubmissions = async (req, res) => {
     res.status(200).json(submissions);
 
   } catch (error) {
+
     res.status(500).json({
       message: error.message,
     });
@@ -118,6 +153,7 @@ exports.getProblemSubmissions = async (req, res) => {
     res.status(200).json(submissions);
 
   } catch (error) {
+
     res.status(500).json({
       message: error.message,
     });
