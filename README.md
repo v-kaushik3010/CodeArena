@@ -1,181 +1,221 @@
-# 🚀 AlgoArena – Competitive Coding Platform (MERN Stack)
+# AlgoArena 🚀
 
-AlgoArena is a full-stack competitive coding platform built using the MERN stack.  
-It allows users to register, log in, solve coding problems, and compete on a leaderboard.
+AlgoArena is a full-stack competitive coding platform inspired by LeetCode and Codeforces.
 
-This project is being developed to simulate a real-world coding contest platform similar to LeetCode or Codeforces.
+It allows users to:
+- Solve coding problems
+- Submit solutions
+- Track scores
+- Compete on leaderboards
+- Practice DSA in a modern coding environment
 
 ---
 
-## 🛠 Tech Stack
+# 🌟 Features
 
-**Backend**
+## 🔐 Authentication & Authorization
+- JWT-based Authentication
+- Secure Login/Register
+- Protected Routes
+- Role-Based Access Control (Admin/User)
+
+---
+
+## 📚 Problem Management
+- Create Problems (Admin)
+- Fetch All Problems
+- Get Problem by ID
+- Difficulty Levels:
+  - Easy
+  - Medium
+  - Hard
+- Tags & Constraints Support
+- Examples & Testcases
+
+---
+
+## 📤 Submission System
+- Submit Solutions
+- Verdict Generation
+- Submission History
+- Runtime Error Handling
+- Wrong Answer Detection
+
+---
+
+## 🏆 Leaderboard System
+- Dynamic Rankings
+- Difficulty-Based Scoring
+- Solved Problem Tracking
+
+---
+
+## ⚛️ Frontend
+- React + Vite
+- Tailwind CSS
+- React Router
+- Axios Integration
+- Dynamic Problem Pages
+- Leaderboard UI
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+- React.js
+- Vite
+- Tailwind CSS
+- Axios
+- React Router DOM
+
+## Backend
 - Node.js
 - Express.js
-- MongoDB Atlas
+- MongoDB
 - Mongoose
 - JWT Authentication
-- bcrypt (Password Hashing)
 
-**Version Control**
-- Git
-- GitHub
+## Tools
+- Git & GitHub
+- Thunder Client
+- VS Code
 
 ---
 
-## 🔐 Features Implemented (Current Phase)
-
-- User Registration API
-- User Login API
-- Secure Password Hashing
-- JWT Token Generation
-- MongoDB Atlas Integration
-- Clean Backend Architecture
+# 📂 Project Structure
 
 ```bash
-
-## 📂 Project Structure
-
-CodeArena/
-└── server/
-├── config/
-│ └── db.js
-├── controllers/
-│ └── authController.js
-├── models/
-│ └── User.js
-├── routes/
-│ └── authRoutes.js
-├── server.js
-└── package.json
+AlgoArena/
+│
+├── client/                 # React Frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── App.jsx
+│   │
+│   └── package.json
+│
+├── server/                 # Express Backend
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── config/
+│   └── server.js
+│
+└── README.md
 ```
-
-
-
-## 🔑 Authentication Flow
-
-1. User registers with name, email, password.
-2. Password is hashed using bcrypt.
-3. JWT token is generated upon successful registration/login.
-4. Token can be used to access protected routes (coming next).
 
 ---
 
-## 🚀 How to Run Locally
+# ⚙️ Installation
 
-### 1️⃣ Clone the Repository
+## 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/v-kaushik3010/AlgoArena.git
+```
+
+---
+
+## 2️⃣ Backend Setup
+
+```bash
 cd AlgoArena/server
-
-
-2️⃣ Install Dependencies
 npm install
-
-3️⃣ Create .env File
-
-Inside the server folder create a .env file:
-
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-
-4️⃣ Start Server
 npm run dev
+```
 
+---
 
-Server will run on:
+## 3️⃣ Frontend Setup
 
-http://localhost:5000
+```bash
+cd AlgoArena/client
+npm install
+npm run dev
+```
 
-📌 API Endpoints
-🔐 Register User
+---
 
-POST /api/auth/register
+# 🔑 Environment Variables
 
-Request Body:
+Create `.env` inside `server/`
 
-{
-  "name": "Varun",
-  "email": "varun@gmail.com",
-  "password": "123456"
-}
+```env
+PORT=5000
+MONGO_URI=YOUR_MONGODB_URI
+JWT_SECRET=YOUR_SECRET_KEY
+```
 
+---
 
-Response:
+# 🚀 API Endpoints
 
-{
-  "_id": "...",
-  "name": "Varun",
-  "email": "varun@gmail.com",
-  "role": "user",
-  "token": "JWT_TOKEN"
-}
+## Auth Routes
 
-🔑 Login User
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register User |
+| POST | `/api/auth/login` | Login User |
 
-POST /api/auth/login
+---
 
-Request Body:
+## Problem Routes
 
-{
-  "email": "varun@gmail.com",
-  "password": "123456"
-}
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/problems` | Get All Problems |
+| GET | `/api/problems/:id` | Get Problem By ID |
+| POST | `/api/problems` | Create Problem (Admin) |
 
+---
 
-Response:
+## Submission Routes
 
-{
-  "_id": "...",
-  "name": "Varun",
-  "email": "varun@gmail.com",
-  "role": "user",
-  "token": "JWT_TOKEN"
-}
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/submissions` | Submit Solution |
+| GET | `/api/submissions/my` | User Submission History |
 
-📈 Upcoming Features
+---
 
-JWT Authentication Middleware
+## User Routes
 
-Role-based Authorization (Admin/User)
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/users/profile` | User Profile |
+| GET | `/api/users/leaderboard` | Leaderboard |
 
-Problem Schema
+---
 
-Problem CRUD APIs
+# 🎯 Future Improvements
 
-Code Submission System
+- Monaco Code Editor
+- Contest System
+- Hidden Testcases
+- Docker-based Code Execution
+- Multiple Language Support
+- Real-Time Rankings
+- Discussion Forum
+- AI Problem Recommendations
 
-Leaderboard System
+---
 
-Frontend (React + Tailwind)
-
-Deployment (Render / Vercel)
-
-🎯 Project Goal
-
-To build a scalable competitive coding platform demonstrating:
-
-Backend Engineering Skills
-
-Secure Authentication Systems
-
-REST API Design
-
-Database Modeling
-
-Clean Architecture Practices
-
-Real-world Debugging Experience
-
-👨‍💻 Author
+# 👨‍💻 Author
 
 Varun Kaushik
 
-GitHub: https://github.com/v-kaushik3010
-
-LinkedIn: https://www.linkedin.com/in/varun-kaushik-/
-
+- GitHub: https://github.com/v-kaushik3010
 
 ---
+
+# ⭐ Contributing
+
+Contributions, suggestions, and feedback are welcome!
+
+If you like this project, consider giving it a ⭐ on GitHub.
