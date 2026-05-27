@@ -13,16 +13,47 @@ function Register() {
     password: "",
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
 
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    setError("");
+  };
+
+  const validateForm = () => {
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (formData.name.trim().length < 3) {
+      return "Name must be at least 3 characters";
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      return "Please enter a valid email";
+    }
+
+    if (formData.password.length < 6) {
+      return "Password must be at least 6 characters";
+    }
+
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationError = validateForm();
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
     try {
 
@@ -34,8 +65,11 @@ function Register() {
       navigate("/login");
 
     } catch (error) {
-      console.error(error);
-      alert("Registration Failed");
+
+      setError(
+        error.response?.data?.message ||
+        "Registration Failed"
+      );
     }
   };
 
@@ -50,6 +84,12 @@ function Register() {
         <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
           Register
         </h1>
+
+        {error && (
+          <div className="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded-lg mb-4 text-sm">
+            {error}
+          </div>
+        )}
 
         <input
           type="text"

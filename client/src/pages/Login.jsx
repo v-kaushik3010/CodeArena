@@ -15,16 +15,43 @@ function Login() {
     password: "",
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
 
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    setError("");
+  };
+
+  const validateForm = () => {
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(formData.email)) {
+      return "Please enter a valid email";
+    }
+
+    if (formData.password.length < 6) {
+      return "Password must be at least 6 characters";
+    }
+
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationError = validateForm();
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
     try {
 
@@ -38,8 +65,11 @@ function Login() {
       navigate("/");
 
     } catch (error) {
-      console.error(error);
-      alert("Login Failed");
+
+      setError(
+        error.response?.data?.message ||
+        "Login Failed"
+      );
     }
   };
 
@@ -54,6 +84,12 @@ function Login() {
         <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
           Login
         </h1>
+
+        {error && (
+          <div className="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded-lg mb-4 text-sm">
+            {error}
+          </div>
+        )}
 
         <input
           type="email"
