@@ -1,7 +1,84 @@
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import API from "../services/api";
+import { AuthContext } from "../context/AuthContext";
+
 function Login() {
+
+  const navigate = useNavigate();
+
+  const { login } = useContext(AuthContext);
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      const res = await API.post(
+        "/auth/login",
+        formData
+      );
+
+      login(res.data);
+
+      navigate("/");
+
+    } catch (error) {
+      console.error(error);
+      alert("Login Failed");
+    }
+  };
+
   return (
-    <div className="text-white text-center mt-20 text-4xl">
-      Login Page
+    <div className="flex items-center justify-center min-h-screen bg-black text-white">
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-zinc-900 p-8 rounded-2xl w-[400px] border border-zinc-800"
+      >
+
+        <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
+          Login
+        </h1>
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          className="w-full p-3 mb-4 rounded-lg bg-zinc-800 outline-none"
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+          className="w-full p-3 mb-6 rounded-lg bg-zinc-800 outline-none"
+        />
+
+        <button
+          className="w-full bg-green-500 hover:bg-green-600 transition py-3 rounded-lg font-bold"
+        >
+          Login
+        </button>
+
+      </form>
+
     </div>
   );
 }
