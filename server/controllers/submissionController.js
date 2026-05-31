@@ -6,6 +6,7 @@ const executeCode = require("../utils/codeExecutor");
 // 🚀 Create Submission
 exports.createSubmission = async (req, res) => {
   try {
+
     const { problemId, code, language } = req.body;
 
     // ✅ Validate request body
@@ -44,25 +45,42 @@ exports.createSubmission = async (req, res) => {
         testCase.input
       );
 
+      console.log("Execution Result:", result);
+
       // ❌ Runtime error
       if (result.error) {
+
         verdict = "Runtime Error";
+
+        console.log("Runtime Error:", result.error);
+
         break;
       }
 
       // ✅ Normalize outputs
-      const actualOutput = result.output?.trim();
-      const expectedOutput = testCase.output?.trim();
+      const actualOutput =
+        result.output?.toString().trim();
 
-      // ❌ Wrong answer
+      const expectedOutput =
+        testCase.output?.toString().trim();
+
+      console.log("Actual Output:", actualOutput);
+      console.log("Expected Output:", expectedOutput);
+
+      // ❌ Wrong Answer
       if (actualOutput !== expectedOutput) {
+
         verdict = "Wrong Answer";
+
         break;
       }
 
       // Optional metrics
-      executionTime = result.executionTime || 0;
-      memoryUsed = result.memoryUsed || 0;
+      executionTime =
+        result.executionTime || 0;
+
+      memoryUsed =
+        result.memoryUsed || 0;
     }
 
     // ✅ Create submission
@@ -79,12 +97,15 @@ exports.createSubmission = async (req, res) => {
     // 🏆 Update user score if accepted
     if (verdict === "Accepted") {
 
-      const user = await User.findById(req.user._id);
+      const user = await User.findById(
+        req.user._id
+      );
 
       // Prevent duplicate score increase
-      const alreadySolved = user.solvedProblems.some(
-        (id) => id.toString() === problemId
-      );
+      const alreadySolved =
+        user.solvedProblems.some(
+          (id) => id.toString() === problemId
+        );
 
       if (!alreadySolved) {
 
@@ -92,9 +113,17 @@ exports.createSubmission = async (req, res) => {
 
         if (problem.difficulty === "Easy") {
           points = 10;
-        } else if (problem.difficulty === "Medium") {
+        }
+
+        else if (
+          problem.difficulty === "Medium"
+        ) {
           points = 20;
-        } else if (problem.difficulty === "Hard") {
+        }
+
+        else if (
+          problem.difficulty === "Hard"
+        ) {
           points = 30;
         }
 
@@ -110,7 +139,10 @@ exports.createSubmission = async (req, res) => {
 
   } catch (error) {
 
-    console.error("Submission Error:", error);
+    console.error(
+      "Submission Error:",
+      error
+    );
 
     res.status(500).json({
       message: error.message,
@@ -123,11 +155,17 @@ exports.createSubmission = async (req, res) => {
 exports.getMySubmissions = async (req, res) => {
   try {
 
-    const submissions = await Submission.find({
-      user: req.user._id,
-    })
-      .populate("problem", "title difficulty")
-      .sort({ createdAt: -1 });
+    const submissions =
+      await Submission.find({
+        user: req.user._id,
+      })
+        .populate(
+          "problem",
+          "title difficulty"
+        )
+        .sort({
+          createdAt: -1,
+        });
 
     res.status(200).json(submissions);
 
@@ -141,14 +179,20 @@ exports.getMySubmissions = async (req, res) => {
 
 
 // 📌 Get Submissions For a Problem
-exports.getProblemSubmissions = async (req, res) => {
+exports.getProblemSubmissions = async (
+  req,
+  res
+) => {
   try {
 
-    const submissions = await Submission.find({
-      problem: req.params.problemId,
-    })
-      .populate("user", "name")
-      .sort({ createdAt: -1 });
+    const submissions =
+      await Submission.find({
+        problem: req.params.problemId,
+      })
+        .populate("user", "name")
+        .sort({
+          createdAt: -1,
+        });
 
     res.status(200).json(submissions);
 

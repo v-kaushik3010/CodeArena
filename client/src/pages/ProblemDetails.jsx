@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Editor from "@monaco-editor/react";
 
 import API from "../services/api";
 
@@ -8,6 +9,10 @@ function ProblemDetails() {
   const { id } = useParams();
 
   const [problem, setProblem] = useState(null);
+  const [code, setCode] = useState("");
+  const [language, setLanguage] = useState("java");
+  const [verdict, setVerdict] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
 
@@ -26,6 +31,43 @@ function ProblemDetails() {
     fetchProblem();
 
   }, [id]);
+
+  const handleSubmit = async () => {
+
+  try {
+
+    setLoading(true);
+
+    const user = JSON.parse(
+      localStorage.getItem("user")
+    );
+
+    const res = await API.post(
+      "/submissions",
+      {
+        problemId: problem._id,
+        code,
+        language,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+
+    setVerdict(res.data.verdict);
+
+  } catch (error) {
+
+    console.error(error);
+
+    setVerdict("Submission Failed");
+  } finally {
+
+    setLoading(false);
+  }
+};
 
   if (!problem) {
     return (
@@ -156,6 +198,62 @@ function ProblemDetails() {
                 {tag}
               </span>
             ))}
+
+          </div>
+
+          {/* Code Editor */}
+
+          <div className="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 mt-8">
+
+            <div className="flex justify-between items-center mb-6">
+
+              <h2 className="text-2xl font-semibold">
+                Code Editor
+              </h2>
+
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="bg-zinc-800 px-4 py-2 rounded-lg outline-none"
+              >
+                <option value="java">Java</option>
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+              </select>
+
+            </div>
+
+            <Editor
+              height="500px"
+              theme="vs-dark"
+              language={language}
+              value={code}
+              onChange={(value) => setCode(value)}
+            />
+
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className="mt-6 bg-green-500 hover:bg-green-600 transition px-8 py-3 rounded-xl font-bold"
+            >
+              {loading ? "Submitting..." : "Submit Solution"}
+            </button>
+
+            {verdict && (
+
+              <div
+                className={`
+                  mt-6 p-4 rounded-xl font-bold text-lg
+                  ${
+                    verdict === "Accepted"
+                      ? "bg-green-500/20 text-green-400"
+                      : "bg-red-500/20 text-red-400"
+                  }
+                `}
+              >
+                Verdict: {verdict}
+              </div>
+            )}
 
           </div>
 
