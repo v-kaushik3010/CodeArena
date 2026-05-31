@@ -1,66 +1,106 @@
 import { useEffect, useState } from "react";
-
 import API from "../services/api";
 
-function Leaderboard() {
+const Leaderboard = () => {
 
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-
-    const fetchLeaderboard = async () => {
-      try {
-
-        const res = await API.get("/users/leaderboard");
-
-        setUsers(res.data);
-
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchLeaderboard();
-
   }, []);
 
-  return (
-    <div className="p-8 text-white">
+  const fetchLeaderboard = async () => {
+    try {
+      const res = await API.get("/users/leaderboard");
+      setUsers(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      <h1 className="text-4xl font-bold mb-8 text-green-400">
-        Leaderboard
+  return (
+    <div className="max-w-6xl mx-auto p-8">
+
+      <h1 className="text-4xl font-bold text-green-400 mb-8">
+        🏆 Leaderboard
       </h1>
 
-      <div className="space-y-4">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-lg shadow-green-900/20">
 
-        {users.map((user) => (
+        <table className="w-full">
 
-          <div
-            key={user.rank}
-            className="bg-zinc-900 p-5 rounded-xl border border-zinc-800 flex justify-between"
-          >
+          <thead>
+            <tr className="bg-zinc-800">
 
-            <div>
-              <h2 className="text-2xl font-semibold">
-                #{user.rank} {user.name}
-              </h2>
+              <th className="p-4 text-left">
+                Rank
+              </th>
 
-              <p className="text-zinc-400">
-                Solved: {user.solvedCount}
-              </p>
-            </div>
+              <th className="p-4 text-left">
+                User
+              </th>
 
-            <div className="text-green-400 text-2xl font-bold">
-              {user.score} pts
-            </div>
+              <th className="p-4 text-left">
+                Score
+              </th>
 
-          </div>
-        ))}
+              <th className="p-4 text-left">
+                Solved
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {users.map((user) => (
+
+              <tr
+                key={user.rank}
+                className="
+                  border-b
+                  border-zinc-800
+                  hover:bg-zinc-800
+                  transition
+                "
+              >
+
+                <td className="p-4 font-semibold">
+
+                  {user.rank === 1
+                    ? "🥇 #1"
+                    : user.rank === 2
+                    ? "🥈 #2"
+                    : user.rank === 3
+                    ? "🥉 #3"
+                    : `#${user.rank}`}
+
+                </td>
+
+                <td className="p-4">
+                  {user.name}
+                </td>
+
+                <td className="p-4 text-green-400 font-bold">
+                  {user.score}
+                </td>
+
+                <td className="p-4">
+                  {user.solvedCount}
+                </td>
+
+              </tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
 
       </div>
 
     </div>
   );
-}
+};
 
 export default Leaderboard;

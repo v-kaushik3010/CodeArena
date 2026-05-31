@@ -28,8 +28,7 @@ function Home() {
 
           <Link
             to="/leaderboard"
-            className="border border-zinc-700 hover:border-green-400 px-6 py-3 rounded-xl transition"
-          >
+            className="border border-zinc-700 text-white hover:border-green-400 px-6 py-3 rounded-xl transition"          >
             View Leaderboard
           </Link>
 
@@ -62,7 +61,7 @@ function Home() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-green-500 hover:-translate-y-1 transition duration-300" >
           <h3 className="text-xl font-bold mb-3 text-green-400">
             Compete
           </h3>
@@ -78,11 +77,11 @@ function Home() {
       {/* Call To Action */}
       <section className="bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center mb-20">
 
-        <h2 className="text-4xl font-bold mb-4">
+        <h2 className="text-4xl font-bold mb-4 text-white">
           Ready to level up your coding?
         </h2>
 
-        <p className="text-zinc-400 mb-8">
+        <p className="text-zinc-300 mb-8 ">
           Join AlgoArena and start solving problems today.
         </p>
 

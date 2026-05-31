@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 
 const MySubmissions = () => {
-
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
@@ -10,9 +9,7 @@ const MySubmissions = () => {
   }, []);
 
   const fetchSubmissions = async () => {
-
     try {
-
       const user = JSON.parse(
         localStorage.getItem("user")
       );
@@ -29,7 +26,6 @@ const MySubmissions = () => {
       setSubmissions(res.data);
 
     } catch (error) {
-
       console.error(error);
     }
   };
@@ -37,78 +33,76 @@ const MySubmissions = () => {
   return (
     <div className="max-w-6xl mx-auto p-8">
 
-      <h1 className="text-4xl font-bold mb-8">
+      <h1 className="text-4xl font-bold text-green-400 mb-8">
         My Submissions
       </h1>
 
-      <div className="bg-zinc-900 rounded-xl overflow-hidden">
+      {submissions.length === 0 ? (
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-center">
+          <p className="text-zinc-400 text-lg">
+            No submissions yet.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
 
-        <table className="w-full">
+          {submissions.map((submission) => (
 
-          <thead>
-            <tr className="border-b border-zinc-700">
+            <div
+              key={submission._id}
+              className="
+                bg-zinc-900
+                border
+                border-zinc-800
+                rounded-xl
+                p-5
+                hover:border-green-500
+                transition
+                duration-300
+              "
+            >
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
 
-              <th className="p-4 text-left">
-                Problem
-              </th>
+                <div>
+                  <h2 className="text-xl font-semibold text-white">
+                    {submission.problem?.title}
+                  </h2>
 
-              <th className="p-4 text-left">
-                Language
-              </th>
+                  <p className="text-zinc-400 mt-1">
+                    Language:{" "}
+                    <span className="text-white">
+                      {submission.language}
+                    </span>
+                  </p>
+                </div>
 
-              <th className="p-4 text-left">
-                Verdict
-              </th>
+                <div className="text-right">
 
-              <th className="p-4 text-left">
-                Date
-              </th>
+                  <p
+                    className={`font-semibold text-lg ${
+                      submission.verdict === "Accepted"
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {submission.verdict}
+                  </p>
 
-            </tr>
-          </thead>
+                  <p className="text-zinc-500 text-sm mt-1">
+                    {new Date(
+                      submission.createdAt
+                    ).toLocaleString()}
+                  </p>
 
-          <tbody>
+                </div>
 
-            {submissions.map((submission) => (
+              </div>
+            </div>
 
-              <tr
-                key={submission._id}
-                className="border-b border-zinc-800"
-              >
+          ))}
 
-                <td className="p-4">
-                  {submission.problem?.title}
-                </td>
-
-                <td className="p-4">
-                  {submission.language}
-                </td>
-
-                <td
-                  className={`p-4 ${
-                    submission.verdict === "Accepted"
-                      ? "text-green-400"
-                      : "text-red-400"
-                  }`}
-                >
-                  {submission.verdict}
-                </td>
-
-                <td className="p-4">
-                  {new Date(
-                    submission.createdAt
-                  ).toLocaleDateString()}
-                </td>
-
-              </tr>
-
-            ))}
-
-          </tbody>
-
-        </table>
-
-      </div>
+        </div>
+      )}
 
     </div>
   );

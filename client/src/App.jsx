@@ -10,6 +10,7 @@ import ProblemDetails from "./pages/ProblemDetails";
 import Leaderboard from "./pages/Leaderboard";
 import Dashboard from "./pages/Dashboard";
 import MySubmissions from "./pages/MySubmissions";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
           <Route path="/my-submissions" element={<MySubmissions />} />
 
         </Routes>
+
+        <Footer />
 
       </div>
 
