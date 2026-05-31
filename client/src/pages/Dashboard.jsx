@@ -2,20 +2,15 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 
 const Dashboard = () => {
-
   const [user, setUser] = useState(null);
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-
     fetchDashboard();
-
   }, []);
 
   const fetchDashboard = async () => {
-
     try {
-
       const localUser = JSON.parse(
         localStorage.getItem("user")
       );
@@ -42,17 +37,15 @@ const Dashboard = () => {
 
       setUser(userRes.data);
       setSubmissions(submissionRes.data);
-
     } catch (error) {
-
       console.error(error);
     }
   };
 
   if (!user) {
     return (
-      <div className="text-center mt-20">
-        Loading...
+      <div className="flex justify-center items-center h-[70vh] text-xl">
+        Loading Dashboard...
       </div>
     );
   }
@@ -60,63 +53,132 @@ const Dashboard = () => {
   return (
     <div className="max-w-6xl mx-auto p-8">
 
-      <div className="bg-zinc-900 rounded-xl p-6 mb-8">
+      <h1 className="text-4xl font-bold mb-8">
+        Dashboard
+      </h1>
 
-        <h1 className="text-4xl font-bold mb-4">
-          Dashboard
-        </h1>
+      {/* Stats Cards */}
+      <div className="grid md:grid-cols-3 gap-6 mb-8">
 
-        <p>
-          <strong>Name:</strong> {user.name}
-        </p>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 className="text-zinc-400 text-sm mb-2">
+            Score
+          </h3>
 
-        <p>
-          <strong>Email:</strong> {user.email}
-        </p>
+          <p className="text-4xl font-bold text-green-400">
+            {user.score}
+          </p>
+        </div>
 
-        <p>
-          <strong>Score:</strong> {user.score}
-        </p>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 className="text-zinc-400 text-sm mb-2">
+            Solved Problems
+          </h3>
 
-        <p>
-          <strong>Solved Problems:</strong>{" "}
-          {user.solvedProblems?.length || 0}
-        </p>
+          <p className="text-4xl font-bold text-blue-400">
+            {user.solvedProblems?.length || 0}
+          </p>
+        </div>
+
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 className="text-zinc-400 text-sm mb-2">
+            Account
+          </h3>
+
+          <p className="font-semibold text-lg">
+            {user.name}
+          </p>
+
+          <p className="text-zinc-400 text-sm">
+            {user.email}
+          </p>
+        </div>
 
       </div>
 
-      <div className="bg-zinc-900 rounded-xl p-6">
+      {/* Recent Submissions */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
 
         <h2 className="text-2xl font-bold mb-6">
           Recent Submissions
         </h2>
 
-        {submissions.map((submission) => (
+        {submissions.length === 0 ? (
+          <p className="text-zinc-400">
+            No submissions yet.
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
 
-          <div
-            key={submission._id}
-            className="border-b border-zinc-700 py-4"
-          >
-            <p>
-              {submission.problem?.title}
-            </p>
+            <table className="w-full">
 
-            <p>
-              {submission.language}
-            </p>
+              <thead>
+                <tr className="border-b border-zinc-700">
 
-            <p
-              className={
-                submission.verdict === "Accepted"
-                  ? "text-green-400"
-                  : "text-red-400"
-              }
-            >
-              {submission.verdict}
-            </p>
+                  <th className="text-left p-4">
+                    Problem
+                  </th>
+
+                  <th className="text-left p-4">
+                    Language
+                  </th>
+
+                  <th className="text-left p-4">
+                    Verdict
+                  </th>
+
+                  <th className="text-left p-4">
+                    Date
+                  </th>
+
+                </tr>
+              </thead>
+
+              <tbody>
+
+                {submissions
+                  .slice(0, 5)
+                  .map((submission) => (
+
+                    <tr
+                      key={submission._id}
+                      className="border-b border-zinc-800 hover:bg-zinc-800/40 transition"
+                    >
+
+                      <td className="p-4">
+                        {submission.problem?.title}
+                      </td>
+
+                      <td className="p-4 capitalize">
+                        {submission.language}
+                      </td>
+
+                      <td
+                        className={`p-4 font-medium ${
+                          submission.verdict === "Accepted"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
+                        {submission.verdict}
+                      </td>
+
+                      <td className="p-4 text-zinc-400">
+                        {new Date(
+                          submission.createdAt
+                        ).toLocaleDateString()}
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+              </tbody>
+
+            </table>
+
           </div>
-
-        ))}
+        )}
 
       </div>
 
