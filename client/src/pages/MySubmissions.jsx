@@ -38,12 +38,12 @@ const MySubmissions = () => {
       </h1>
 
       {submissions.length === 0 ? (
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-center">
-          <p className="text-zinc-400 text-lg">
+
+        <div className="text-center py-10 text-zinc-400">
             No submissions yet.
-          </p>
         </div>
-      ) : (
+
+        ) : (
         <div className="space-y-4">
 
           {submissions.map((submission) => (

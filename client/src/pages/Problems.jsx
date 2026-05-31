@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import API from "../services/api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Problems() {
 
   const [problems, setProblems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -17,13 +19,22 @@ function Problems() {
         setProblems(res.data);
 
       } catch (error) {
+
         console.error(error);
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
     fetchProblems();
 
   }, []);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="p-8 text-white">
@@ -39,7 +50,16 @@ function Problems() {
           <Link
             key={problem._id}
             to={`/problems/${problem._id}`}
-            className="block bg-zinc-900 p-5 rounded-xl border border-zinc-800 hover:border-green-400 transition"
+            className="
+              block
+              bg-zinc-900
+              p-5
+              rounded-xl
+              border
+              border-zinc-800
+              hover:border-green-400
+              transition
+            "
           >
 
             <div className="flex justify-between items-center">
@@ -66,6 +86,7 @@ function Problems() {
             </div>
 
           </Link>
+
         ))}
 
       </div>

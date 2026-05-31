@@ -11,15 +11,18 @@ import Leaderboard from "./pages/Leaderboard";
 import Dashboard from "./pages/Dashboard";
 import MySubmissions from "./pages/MySubmissions";
 import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
 
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen flex flex-col bg-black text-white">
 
         <Navbar />
 
+        <main className="flex-grow">
         <Routes>
 
           <Route path="/" element={<Home />} />
@@ -34,11 +37,28 @@ function App() {
 
           <Route path="/leaderboard" element={<Leaderboard />} />
 
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/my-submissions" element={<MySubmissions />} />
+          <Route
+            path="/my-submissions"
+            element={
+              <ProtectedRoute>
+                <MySubmissions />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
+        </main>
 
         <Footer />
 

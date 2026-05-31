@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -42,13 +43,11 @@ const Dashboard = () => {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center h-[70vh] text-xl">
-        Loading Dashboard...
-      </div>
-    );
-  }
+
+
+    if (!user) {
+        return <LoadingSpinner />;
+    }
 
   return (
     <div className="max-w-6xl mx-auto p-8">
