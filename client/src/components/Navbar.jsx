@@ -15,13 +15,19 @@ function Navbar() {
 
         <Link to="/">Home</Link>
 
+        <Link to="/dashboard"> Dashboard </Link>
+
         <Link to="/problems">Problems</Link>
 
         <Link to="/leaderboard">Leaderboard</Link>
 
+        <Link to="/my-submissions"> Submissions </Link>
+
         <Link to="/login">Login</Link>
 
         <Link to="/register">Register</Link>
+
+
 
       </div>
     </nav>

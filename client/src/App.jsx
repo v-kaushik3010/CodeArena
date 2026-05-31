@@ -8,6 +8,8 @@ import Register from "./pages/Register";
 import Problems from "./pages/Problems";
 import ProblemDetails from "./pages/ProblemDetails";
 import Leaderboard from "./pages/Leaderboard";
+import Dashboard from "./pages/Dashboard";
+import MySubmissions from "./pages/MySubmissions";
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
           <Route path="/problems/:id" element={<ProblemDetails />} />
 
           <Route path="/leaderboard" element={<Leaderboard />} />
+
+          <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/my-submissions" element={<MySubmissions />} />
 
         </Routes>
 
