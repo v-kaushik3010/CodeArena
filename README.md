@@ -1,221 +1,162 @@
 # AlgoArena 🚀
 
-AlgoArena is a full-stack competitive coding platform inspired by LeetCode and Codeforces.
+A full-stack competitive programming platform inspired by LeetCode and Codeforces.
 
-It allows users to:
-- Solve coding problems
-- Submit solutions
-- Track scores
-- Compete on leaderboards
-- Practice DSA in a modern coding environment
+Built and deployed independently using the MERN stack, MongoDB Atlas, Render, and Vercel.
 
----
+## 🌐 Live Demo
 
-# 🌟 Features
+Frontend: https://algo-arena-xi-lovat.vercel.app
 
-## 🔐 Authentication & Authorization
-- JWT-based Authentication
-- Secure Login/Register
-- Protected Routes
-- Role-Based Access Control (Admin/User)
+Backend API: https://algoarena-backend-bhqw.onrender.com
 
----
+## 📌 Features
 
-## 📚 Problem Management
-- Create Problems (Admin)
-- Fetch All Problems
-- Get Problem by ID
-- Difficulty Levels:
-  - Easy
-  - Medium
-  - Hard
-- Tags & Constraints Support
-- Examples & Testcases
+### Authentication
 
----
+* User Registration
+* User Login
+* JWT Authentication
+* Protected Routes
 
-## 📤 Submission System
-- Submit Solutions
-- Verdict Generation
-- Submission History
-- Runtime Error Handling
-- Wrong Answer Detection
+### Coding Platform
 
----
+* Browse coding problems
+* View problem descriptions, examples, constraints, and tags
+* Multi-language code editor support
+* Submit solutions
+* Automated verdict generation (Accepted / Wrong Answer / Runtime Error)
 
-## 🏆 Leaderboard System
-- Dynamic Rankings
-- Difficulty-Based Scoring
-- Solved Problem Tracking
+### User Dashboard
 
----
+* Personal profile dashboard
+* Score tracking
+* Solved problems count
+* Recent submissions history
 
-## ⚛️ Frontend
-- React + Vite
-- Tailwind CSS
-- React Router
-- Axios Integration
-- Dynamic Problem Pages
-- Leaderboard UI
+### Leaderboard
 
----
+* Global ranking system
+* Score-based ordering
+* Solved problem statistics
 
-# 🛠 Tech Stack
+### Submission Tracking
 
-## Frontend
-- React.js
-- Vite
-- Tailwind CSS
-- Axios
-- React Router DOM
+* View all personal submissions
+* Verdict history
+* Language information
+* Submission timestamps
 
-## Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
+## 🛠️ Tech Stack
 
-## Tools
-- Git & GitHub
-- Thunder Client
-- VS Code
+### Frontend
 
----
+* React.js
+* React Router
+* Axios
+* Tailwind CSS
+* Monaco Editor
 
-# 📂 Project Structure
+### Backend
 
-```bash
-AlgoArena/
+* Node.js
+* Express.js
+* JWT Authentication
+* MongoDB Atlas
+* Mongoose
+
+### Deployment
+
+* Vercel (Frontend)
+* Render (Backend)
+* MongoDB Atlas (Database)
+
+## 📂 Project Structure
+
+```text
+AlgoArena
 │
-├── client/                 # React Frontend
+├── client/
 │   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   └── App.jsx
-│   │
+│   ├── public/
 │   └── package.json
 │
-├── server/                 # Express Backend
+├── server/
 │   ├── controllers/
-│   ├── middleware/
 │   ├── models/
 │   ├── routes/
+│   ├── middleware/
 │   ├── utils/
-│   ├── config/
 │   └── server.js
 │
 └── README.md
 ```
 
----
+## 🚀 Local Setup
 
-# ⚙️ Installation
-
-## 1️⃣ Clone Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/v-kaushik3010/AlgoArena.git
+cd AlgoArena
 ```
 
----
-
-## 2️⃣ Backend Setup
+### Backend Setup
 
 ```bash
-cd AlgoArena/server
+cd server
 npm install
-npm run dev
 ```
 
----
-
-## 3️⃣ Frontend Setup
-
-```bash
-cd AlgoArena/client
-npm install
-npm run dev
-```
-
----
-
-# 🔑 Environment Variables
-
-Create `.env` inside `server/`
+Create `.env`
 
 ```env
 PORT=5000
-MONGO_URI=YOUR_MONGODB_URI
-JWT_SECRET=YOUR_SECRET_KEY
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
 ```
 
----
+Run backend:
 
-# 🚀 API Endpoints
+```bash
+npm run dev
+```
 
-## Auth Routes
+### Frontend Setup
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/auth/register` | Register User |
-| POST | `/api/auth/login` | Login User |
+```bash
+cd client
+npm install
+```
 
----
+Create `.env`
 
-## Problem Routes
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/problems` | Get All Problems |
-| GET | `/api/problems/:id` | Get Problem By ID |
-| POST | `/api/problems` | Create Problem (Admin) |
+Run frontend:
 
----
+```bash
+npm run dev
+```
 
-## Submission Routes
+## 🎯 Future Improvements
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/submissions` | Submit Solution |
-| GET | `/api/submissions/my` | User Submission History |
+* Enhanced online judge
+* Hidden test cases
+* Code execution sandboxing
+* Contest mode
+* User profiles
+* Problem categories
+* Difficulty filters
+* Discussion section
+* Performance analytics
 
----
-
-## User Routes
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/users/profile` | User Profile |
-| GET | `/api/users/leaderboard` | Leaderboard |
-
----
-
-# 🎯 Future Improvements
-
-- Monaco Code Editor
-- Contest System
-- Hidden Testcases
-- Docker-based Code Execution
-- Multiple Language Support
-- Real-Time Rankings
-- Discussion Forum
-- AI Problem Recommendations
-
----
-
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 Varun Kaushik
 
-- GitHub: https://github.com/v-kaushik3010
+GitHub: https://github.com/v-kaushik3010
 
----
-
-# ⭐ Contributing
-
-Contributions, suggestions, and feedback are welcome!
-
-If you like this project, consider giving it a ⭐ on GitHub.
+LinkedIn: https://www.linkedin.com/in/varun-kaushik3010/
